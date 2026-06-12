@@ -603,7 +603,7 @@ modeBtn.addEventListener('click',()=>{
 
 // ── DATA LOAD (parallel, cached) ─────────────
 async function loadData(){
-  const BASE='https://github.com/Webxpert-rasel/newhost';
+  const BASE='https://raw.githubusercontent.com/Webxpert-rasel/newhost/main/';
   try{
     // fetch all 4 in parallel – browser opens connections simultaneously
     const [s,c,co,lg]=await Promise.all([
