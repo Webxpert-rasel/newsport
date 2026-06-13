@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>rsport | World Cup Live</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-73B0JZTYCY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-73B0JZTYCY');
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
       :root {
@@ -290,6 +298,202 @@
         color: #34d399;
       }
 
+      /* ── Schedule Section ── */
+      .schedule-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        width: 100%;
+      }
+
+      .schedule-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .schedule-title {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tz-pill {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        background: linear-gradient(135deg, var(--accent), var(--cyan));
+        color: #fff;
+        padding: 3px 8px;
+        border-radius: 99px;
+      }
+
+      .day-tabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        margin-bottom: 14px;
+        scrollbar-width: none;
+      }
+      .day-tabs::-webkit-scrollbar { display: none; }
+
+      .day-tab {
+        flex-shrink: 0;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--border);
+        padding: 6px 12px;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .day-tab:hover {
+        background: #111827;
+        color: var(--text);
+      }
+
+      .day-tab.active {
+        background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(6,182,212,0.1));
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      .match-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      @media (min-width: 480px) {
+        .match-list {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 768px) {
+        .match-list {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (min-width: 1100px) {
+        .match-list {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .match-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition: all 0.2s ease;
+      }
+
+      .match-card:hover {
+        background: #111827;
+        border-color: rgba(255,255,255,0.1);
+        transform: translateY(-1px);
+      }
+
+      .match-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .match-time {
+        font-size: 11px;
+        font-weight: 800;
+        color: #93c5fd;
+        letter-spacing: 0.01em;
+      }
+
+      .match-time-tag {
+        font-size: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        padding: 2px 7px;
+        border-radius: 99px;
+      }
+
+      .match-time-tag.live {
+        color: #fff;
+        background: rgba(239,68,68,0.18);
+        border-color: rgba(239,68,68,0.4);
+      }
+
+      .match-vs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .match-team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .match-team-name {
+        font-size: 10px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.2;
+        max-width: 100%;
+      }
+
+      .flag {
+        width: 28px;
+        height: 21px;
+        object-fit: cover;
+        border-radius: 3px;
+        flex-shrink: 0;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
+      }
+
+      .vs-sep {
+        font-size: 9px;
+        font-weight: 800;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+
+      .match-venue {
+        font-size: 9px;
+        color: var(--muted);
+        text-align: center;
+        padding-top: 6px;
+        border-top: 1px solid var(--border);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       /* ── Footer ── */
       .footer {
         text-align: center;
@@ -340,11 +544,176 @@
 
       </main>
 
+      <!-- Match Schedule -->
+      <section class="schedule-section">
+        <div class="schedule-header">
+          <p class="schedule-title">🏆 World Cup 2026 Schedule <span class="tz-pill">Bangladesh Time</span></p>
+        </div>
+        <div class="day-tabs" id="day-tabs"></div>
+        <div class="match-list" id="match-list"></div>
+      </section>
+
       <!-- Footer -->
       <footer class="footer">
         <p>© 2026 rsport. Streams belong to their respective rights holders. Use responsibly.</p>
       </footer>
     </div>
+
+    <script>
+// FIFA World Cup 2026 Group Stage — Bangladesh Standard Time (BST = IST + 0:30)
+      const matches = [
+        {dt:"2026-06-12T13:00:00+06:00", date:"Jun 12", time:"01:00 PM", t1:"Mexico", t2:"South Africa", c1:"mx", c2:"za", venue:"Mexico City"},
+        {dt:"2026-06-12T19:30:00+06:00", date:"Jun 12", time:"07:30 PM", t1:"South Korea", t2:"Czechia", c1:"kr", c2:"cz", venue:"Guadalajara"},
+        {dt:"2026-06-13T01:00:00+06:00", date:"Jun 12", time:"01:00 AM", t1:"Canada", t2:"Bosnia & Herzegovina", c1:"ca", c2:"ba", venue:"Toronto"},
+        {dt:"2026-06-13T07:00:00+06:00", date:"Jun 13", time:"07:00 AM", t1:"USA", t2:"Paraguay", c1:"us", c2:"py", venue:"Los Angeles"},
+        {dt:"2026-06-14T01:00:00+06:00", date:"Jun 13", time:"01:00 AM", t1:"Qatar", t2:"Switzerland", c1:"qa", c2:"ch", venue:"San Francisco"},
+        {dt:"2026-06-14T04:00:00+06:00", date:"Jun 14", time:"04:00 AM", t1:"Brazil", t2:"Morocco", c1:"br", c2:"ma", venue:"New York/New Jersey"},
+        {dt:"2026-06-14T07:00:00+06:00", date:"Jun 14", time:"07:00 AM", t1:"Haiti", t2:"Scotland", c1:"ht", c2:"gb-sct", venue:"Boston"},
+        {dt:"2026-06-14T10:00:00+06:00", date:"Jun 14", time:"10:00 AM", t1:"Australia", t2:"Türkiye", c1:"au", c2:"tr", venue:"Vancouver"},
+        {dt:"2026-06-14T23:00:00+06:00", date:"Jun 14", time:"11:00 PM", t1:"Germany", t2:"Curacao", c1:"de", c2:"cw", venue:"Houston"},
+        {dt:"2026-06-15T01:00:00+06:00", date:"Jun 15", time:"01:00 AM", t1:"Netherlands", t2:"Japan", c1:"nl", c2:"jp", venue:"Dallas"},
+        {dt:"2026-06-15T05:00:00+06:00", date:"Jun 15", time:"05:00 AM", t1:"Ivory Coast", t2:"Ecuador", c1:"ci", c2:"ec", venue:"Philadelphia"},
+        {dt:"2026-06-15T07:30:00+06:00", date:"Jun 15", time:"07:30 AM", t1:"Sweden", t2:"Tunisia", c1:"se", c2:"tn", venue:"Monterrey"},
+        {dt:"2026-06-15T11:00:00+06:00", date:"Jun 15", time:"11:00 AM", t1:"Spain", t2:"Cape Verde", c1:"es", c2:"cv", venue:"Atlanta"},
+        {dt:"2026-06-16T01:00:00+06:00", date:"Jun 16", time:"01:00 AM", t1:"Belgium", t2:"Egypt", c1:"be", c2:"eg", venue:"Seattle"},
+        {dt:"2026-06-16T04:00:00+06:00", date:"Jun 16", time:"04:00 AM", t1:"Saudi Arabia", t2:"Uruguay", c1:"sa", c2:"uy", venue:"Miami"},
+        {dt:"2026-06-16T07:00:00+06:00", date:"Jun 16", time:"07:00 AM", t1:"Iran", t2:"New Zealand", c1:"ir", c2:"nz", venue:"Los Angeles"},
+        {dt:"2026-06-17T01:00:00+06:00", date:"Jun 17", time:"01:00 AM", t1:"France", t2:"Senegal", c1:"fr", c2:"sn", venue:"New York/New Jersey"},
+        {dt:"2026-06-17T06:30:00+06:00", date:"Jun 17", time:"06:30 AM", t1:"Iraq", t2:"Norway", c1:"iq", c2:"no", venue:"Boston"},
+        {dt:"2026-06-17T07:00:00+06:00", date:"Jun 17", time:"07:00 AM", t1:"Argentina", t2:"Algeria", c1:"ar", c2:"dz", venue:"Kansas City"},
+        {dt:"2026-06-17T09:30:00+06:00", date:"Jun 17", time:"09:30 AM", t1:"Austria", t2:"Jordan", c1:"at", c2:"jo", venue:"San Francisco"},
+        {dt:"2026-06-18T01:00:00+06:00", date:"Jun 17", time:"01:00 AM", t1:"Portugal", t2:"Congo", c1:"pt", c2:"cg", venue:"Houston"},
+        {dt:"2026-06-18T01:30:00+06:00", date:"Jun 18", time:"01:30 AM", t1:"England", t2:"Croatia", c1:"gb-eng", c2:"hr", venue:"Dallas"},
+        {dt:"2026-06-18T04:30:00+06:00", date:"Jun 18", time:"04:30 AM", t1:"Ghana", t2:"Panama", c1:"gh", c2:"pa", venue:"Toronto"},
+        {dt:"2026-06-18T07:30:00+06:00", date:"Jun 18", time:"07:30 AM", t1:"Uzbekistan", t2:"Colombia", c1:"uz", c2:"co", venue:"Mexico City"},
+        {dt:"2026-06-18T09:30:00+06:00", date:"Jun 18", time:"09:30 AM", t1:"Czechia", t2:"Saudi Arabia", c1:"cz", c2:"sa", venue:"Atlanta"},
+        {dt:"2026-06-19T01:00:00+06:00", date:"Jun 19", time:"01:00 AM", t1:"Switzerland", t2:"Bosnia & Herzegovina", c1:"ch", c2:"ba", venue:"Los Angeles"},
+        {dt:"2026-06-19T01:30:00+06:00", date:"Jun 19", time:"01:30 AM", t1:"Canada", t2:"Qatar", c1:"ca", c2:"qa", venue:"Vancouver"},
+        {dt:"2026-06-19T07:00:00+06:00", date:"Jun 19", time:"07:00 AM", t1:"Mexico", t2:"South Korea", c1:"mx", c2:"kr", venue:"Guadalajara"},
+        {dt:"2026-06-19T07:30:00+06:00", date:"Jun 19", time:"07:30 AM", t1:"USA", t2:"Australia", c1:"us", c2:"au", venue:"Seattle"},
+        {dt:"2026-06-20T01:00:00+06:00", date:"Jun 20", time:"01:00 AM", t1:"Scotland", t2:"Morocco", c1:"gb-sct", c2:"ma", venue:"Boston"},
+        {dt:"2026-06-20T04:30:00+06:00", date:"Jun 20", time:"04:30 AM", t1:"Brazil", t2:"Haiti", c1:"br", c2:"ht", venue:"Philadelphia"},
+        {dt:"2026-06-20T07:30:00+06:00", date:"Jun 20", time:"07:30 AM", t1:"Türkiye", t2:"Paraguay", c1:"tr", c2:"py", venue:"Monterrey"},
+        {dt:"2026-06-20T10:30:00+06:00", date:"Jun 20", time:"10:30 AM", t1:"Netherlands", t2:"Curacao", c1:"nl", c2:"cw", venue:"Houston"},
+        {dt:"2026-06-21T01:00:00+06:00", date:"Jun 21", time:"01:00 AM", t1:"Germany", t2:"Ivory Coast", c1:"de", c2:"ci", venue:"Toronto"},
+        {dt:"2026-06-21T05:00:00+06:00", date:"Jun 21", time:"05:00 AM", t1:"Ecuador", t2:"Curacao", c1:"ec", c2:"cw", venue:"Kansas City"},
+        {dt:"2026-06-21T07:30:00+06:00", date:"Jun 21", time:"07:30 AM", t1:"Tunisia", t2:"Japan", c1:"tn", c2:"jp", venue:"Dallas"},
+        {dt:"2026-06-21T11:00:00+06:00", date:"Jun 21", time:"11:00 AM", t1:"Spain", t2:"Saudi Arabia", c1:"es", c2:"sa", venue:"Atlanta"},
+        {dt:"2026-06-22T01:00:00+06:00", date:"Jun 22", time:"01:00 AM", t1:"Belgium", t2:"Iran", c1:"be", c2:"ir", venue:"Los Angeles"},
+        {dt:"2026-06-22T04:00:00+06:00", date:"Jun 22", time:"04:00 AM", t1:"Uruguay", t2:"Cape Verde", c1:"uy", c2:"cv", venue:"Miami"},
+        {dt:"2026-06-22T07:00:00+06:00", date:"Jun 22", time:"07:00 AM", t1:"New Zealand", t2:"Egypt", c1:"nz", c2:"eg", venue:"Vancouver"},
+        {dt:"2026-06-22T11:00:00+06:00", date:"Jun 22", time:"11:00 AM", t1:"Argentina", t2:"Austria", c1:"ar", c2:"at", venue:"Dallas"},
+        {dt:"2026-06-23T01:00:00+06:00", date:"Jun 23", time:"01:00 AM", t1:"France", t2:"Iraq", c1:"fr", c2:"iq", venue:"Philadelphia"},
+        {dt:"2026-06-23T05:30:00+06:00", date:"Jun 23", time:"05:30 AM", t1:"Norway", t2:"Senegal", c1:"no", c2:"sn", venue:"New York/New Jersey"},
+        {dt:"2026-06-23T07:00:00+06:00", date:"Jun 23", time:"07:00 AM", t1:"Jordan", t2:"Algeria", c1:"jo", c2:"dz", venue:"San Francisco"},
+        {dt:"2026-06-23T09:00:00+06:00", date:"Jun 23", time:"09:00 AM", t1:"Portugal", t2:"Uzbekistan", c1:"pt", c2:"uz", venue:"Houston"},
+        {dt:"2026-06-24T01:00:00+06:00", date:"Jun 24", time:"01:00 AM", t1:"England", t2:"Ghana", c1:"gb-eng", c2:"gh", venue:"Boston"},
+        {dt:"2026-06-24T04:30:00+06:00", date:"Jun 24", time:"04:30 AM", t1:"Panama", t2:"Croatia", c1:"pa", c2:"hr", venue:"Toronto"},
+        {dt:"2026-06-24T07:30:00+06:00", date:"Jun 24", time:"07:30 AM", t1:"Colombia", t2:"Congo", c1:"co", c2:"cg", venue:"Mexico City"},
+        {dt:"2026-06-24T09:30:00+06:00", date:"Jun 24", time:"09:30 AM", t1:"Czechia", t2:"South Africa", c1:"cz", c2:"za", venue:"Atlanta"},
+        {dt:"2026-06-25T01:00:00+06:00", date:"Jun 25", time:"01:00 AM", t1:"Canada", t2:"Switzerland", c1:"ca", c2:"ch", venue:"Seattle"},
+        {dt:"2026-06-25T01:30:00+06:00", date:"Jun 25", time:"01:30 AM", t1:"Bosnia & Herzegovina", t2:"Qatar", c1:"ba", c2:"qa", venue:"Atlanta"},
+        {dt:"2026-06-25T07:00:00+06:00", date:"Jun 25", time:"07:00 AM", t1:"Scotland", t2:"Brazil", c1:"gb-sct", c2:"br", venue:"Miami"},
+        {dt:"2026-06-25T07:00:00+06:00", date:"Jun 25", time:"07:00 AM", t1:"Morocco", t2:"Haiti", c1:"ma", c2:"ht", venue:"Philadelphia"},
+        {dt:"2026-06-25T07:30:00+06:00", date:"Jun 25", time:"07:30 AM", t1:"Czechia", t2:"Mexico", c1:"cz", c2:"mx", venue:"Mexico City"},
+        {dt:"2026-06-25T07:30:00+06:00", date:"Jun 25", time:"07:30 AM", t1:"South Africa", t2:"South Korea", c1:"za", c2:"kr", venue:"Monterrey"},
+        {dt:"2026-06-26T01:00:00+06:00", date:"Jun 26", time:"01:00 AM", t1:"Curacao", t2:"Ivory Coast", c1:"cw", c2:"ci", venue:"Philadelphia"},
+        {dt:"2026-06-26T01:00:00+06:00", date:"Jun 26", time:"01:00 AM", t1:"Ecuador", t2:"Germany", c1:"ec", c2:"de", venue:"New York/New Jersey"},
+        {dt:"2026-06-26T04:30:00+06:00", date:"Jun 26", time:"04:30 AM", t1:"Japan", t2:"Sweden", c1:"jp", c2:"se", venue:"Dallas"},
+        {dt:"2026-06-26T07:00:00+06:00", date:"Jun 26", time:"07:00 AM", t1:"Tunisia", t2:"Netherlands", c1:"tn", c2:"nl", venue:"Kansas City"},
+        {dt:"2026-06-26T07:30:00+06:00", date:"Jun 26", time:"07:30 AM", t1:"Türkiye", t2:"USA", c1:"tr", c2:"us", venue:"Los Angeles"},
+        {dt:"2026-06-26T07:30:00+06:00", date:"Jun 26", time:"07:30 AM", t1:"Paraguay", t2:"Australia", c1:"py", c2:"au", venue:"San Francisco"},
+        {dt:"2026-06-27T01:00:00+06:00", date:"Jun 27", time:"01:00 AM", t1:"Norway", t2:"France", c1:"no", c2:"fr", venue:"Toronto"},
+        {dt:"2026-06-27T01:00:00+06:00", date:"Jun 27", time:"01:00 AM", t1:"Senegal", t2:"Iraq", c1:"sn", c2:"iq", venue:"Boston"},
+        {dt:"2026-06-27T07:00:00+06:00", date:"Jun 27", time:"07:00 AM", t1:"Cape Verde", t2:"Saudi Arabia", c1:"cv", c2:"sa", venue:"Houston"},
+        {dt:"2026-06-27T10:00:00+06:00", date:"Jun 27", time:"10:00 AM", t1:"Uruguay", t2:"Spain", c1:"uy", c2:"es", venue:"Guadalajara"},
+        {dt:"2026-06-27T01:00:00+06:00", date:"Jun 27", time:"01:00 AM", t1:"Egypt", t2:"Iran", c1:"eg", c2:"ir", venue:"Seattle"},
+        {dt:"2026-06-27T01:00:00+06:00", date:"Jun 27", time:"01:00 AM", t1:"New Zealand", t2:"Belgium", c1:"nz", c2:"be", venue:"Vancouver"},
+        {dt:"2026-06-28T01:00:00+06:00", date:"Jun 28", time:"01:00 AM", t1:"Panama", t2:"England", c1:"pa", c2:"gb-eng", venue:"Philadelphia"},
+        {dt:"2026-06-28T05:00:00+06:00", date:"Jun 28", time:"05:00 AM", t1:"Croatia", t2:"Ghana", c1:"hr", c2:"gh", venue:"Philadelphia"},
+        {dt:"2026-06-28T05:00:00+06:00", date:"Jun 28", time:"05:00 AM", t1:"Colombia", t2:"Portugal", c1:"co", c2:"pt", venue:"Atlanta"},
+        {dt:"2026-06-28T05:00:00+06:00", date:"Jun 28", time:"05:00 AM", t1:"Congo", t2:"Uzbekistan", c1:"cg", c2:"uz", venue:"Atlanta"},
+        {dt:"2026-06-28T08:00:00+06:00", date:"Jun 28", time:"08:00 AM", t1:"Austria", t2:"Algeria", c1:"at", c2:"dz", venue:"Kansas City"},
+        {dt:"2026-06-28T08:00:00+06:00", date:"Jun 28", time:"08:00 AM", t1:"Jordan", t2:"Argentina", c1:"jo", c2:"ar", venue:"Kansas City"}
+      ];
+
+      const dayTabsEl  = document.getElementById("day-tabs");
+      const matchListEl = document.getElementById("match-list");
+
+      // Match length assumed ~2 hours for "live/finished" determination
+      const MATCH_DURATION_MS = 2 * 60 * 60 * 1000;
+
+      function flagImg(code) {
+        if (!code) return '<span class="flag" style="font-size:14px">🏳️</span>';
+        return `<img class="flag" src="https://flagcdn.com/24x18/${code}.png" srcset="https://flagcdn.com/48x36/${code}.png 2x" alt="" />`;
+      }
+
+      function getActiveMatches() {
+        const now = new Date();
+        // Drop matches that have already finished (kickoff + duration < now)
+        return matches.filter(m => (new Date(m.dt).getTime() + MATCH_DURATION_MS) > now.getTime());
+      }
+
+      let activeDay = null;
+
+      function renderSchedule() {
+        const upcoming = getActiveMatches();
+        const days = [...new Set(upcoming.map(m => m.date))];
+
+        if (!activeDay || !days.includes(activeDay)) {
+          activeDay = days[0] || null;
+        }
+
+        dayTabsEl.innerHTML = "";
+        days.forEach(day => {
+          const tab = document.createElement("button");
+          tab.className = "day-tab " + (day === activeDay ? "active" : "");
+          tab.textContent = day;
+          tab.addEventListener("click", () => { activeDay = day; renderSchedule(); });
+          dayTabsEl.appendChild(tab);
+        });
+
+        matchListEl.innerHTML = "";
+
+        if (!days.length) {
+          matchListEl.innerHTML = '<p style="font-size:12px;color:var(--muted);padding:20px;text-align:center">All group stage matches have finished.</p>';
+          return;
+        }
+
+        const now = new Date();
+        upcoming.filter(m => m.date === activeDay).forEach(m => {
+          const start = new Date(m.dt).getTime();
+          const end = start + MATCH_DURATION_MS;
+          const isLive = now.getTime() >= start && now.getTime() < end;
+
+          const card = document.createElement("div");
+          card.className = "match-card";
+          card.innerHTML = `
+            <div class="match-card-top">
+              <span class="match-time">${m.time}</span>
+              <span class="match-time-tag${isLive ? " live" : ""}">${isLive ? "🔴 Live" : "BST"}</span>
+            </div>
+            <div class="match-vs">
+              <div class="match-team">
+                ${flagImg(m.c1)}
+                <span class="match-team-name">${m.t1}</span>
+              </div>
+              <span class="vs-sep">VS</span>
+              <div class="match-team">
+                ${flagImg(m.c2)}
+                <span class="match-team-name">${m.t2}</span>
+              </div>
+            </div>
+            <div class="match-venue">📍 ${m.venue}</div>
+          `;
+          matchListEl.appendChild(card);
+        });
+      }
+
+      renderSchedule();
+      // Refresh every minute so finished matches drop off automatically
+      setInterval(renderSchedule, 60 * 1000);
+    </script>
 
     <!-- Multi-Format Playback Engines (Hls.js & Shaka Player) -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.12/dist/hls.min.js"></script>
@@ -356,8 +725,8 @@
           desc: "Global sports stream • HLS",
           url: "https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8",
           tag: "HD",
-          iconBg: "#2563eb",
-          iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#2563eb" rx="6"/><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="12" cy="12" r="3" fill="#38bdf8"/></svg>',
+          iconBg: "#0a1628",
+          iconSvg: '<img src="https://webxpert-rasel.github.io/worldcupicon/IMG_20260613_202814.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:6px"/>',
           format: "hls"
         },
         {
@@ -365,26 +734,17 @@
           desc: "World Cup 2026 feed • HLS",
           url: "https://toffee-seg.smartdev.workers.dev/manifest?url=https%3A%2F%2Fprod-cdn01-live.toffeelive.com%2Flive%2FFIFA-2026%2F0%2Fmaster_3500.m3u8&cookie=%22Expires%3D1781372565~_GO%3DGenerated~URLPrefix%3DaHR0cHM6Ly9wcm9kLWNkbjAxLWxpdmUudG9mZmVlbGl2ZS5jb20~Signature%3DAaPNU3dPJyjCWl9uqYUhckb0fdg7RP-kLcuSqR5V5pjo62P2P2iQTcyTjpVuuIIP9NLcdW0VA1Z9_6NVwI2H36GyJbAC%22",
           tag: "2026",
-          iconBg: "#7c3aed",
-          iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#7c3aed" rx="6"/><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2"/><path d="M12 5l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1z" fill="#fbbf24"/></svg>',
+          iconBg: "#0a1628",
+          iconSvg: '<img src="https://webxpert-rasel.github.io/worldcupicon/IMG_20260613_202814.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:6px"/>',
           format: "hls"
-        },
-        {
-          name: "KingoBD Server 1",
-          desc: "FIFA World Cup 2026 • 1080p",
-          url: "https://m.kingobdsports.xyz",
-          tag: "1080p",
-          iconBg: "#1d4ed8",
-          iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#1d4ed8" rx="6"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/><path d="M9 9l6 3-6 3z" fill="#fff"/></svg>',
-          format: "iframe"
         },
         {
           name: "Caze TV Brazil",
           desc: "Brazilian sports • Iframe",
           url: "https://fifa-world-cup-live.pages.dev/caze-tv",
           tag: "1080p",
-          iconBg: "#16a34a",
-          iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#16a34a" rx="6"/><polygon points="12,4 22,20 2,20" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="14" r="3" fill="#fbbf24"/></svg>',
+          iconBg: "#0a1628",
+          iconSvg: '<img src="https://webxpert-rasel.github.io/worldcupicon/IMG_20260613_202814.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:6px"/>',
           format: "iframe"
         },
         {
@@ -392,12 +752,26 @@
           desc: "Commentary stream • DASH",
           url: "https://live.vrtcdn.be/groupd/live/0761024f-37fe-4254-bc37-e95d7c62b2d1/live.isml/.mpd",
           tag: "DRM",
-          iconBg: "#db2777",
-          iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#db2777" rx="6"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#fff"/></svg>',
+          iconBg: "#0a1628",
+          iconSvg: '<img src="https://webxpert-rasel.github.io/worldcupicon/IMG_20260613_202814.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:6px"/>',
           format: "dash",
           drm: {
             clearKeys: {
               "893bc63340876605f52886a42e0ccce5": "d6c46d2d691056fbd091bf1f01b21a91"
+            }
+          }
+        },
+        {
+          name: "TSN",
+          desc: "Sports network • DASH/DRM",
+          url: "https://qp-pldt-live-bpk-ucd-prod.akamaized.net/bpk-tv/ch299/default/index.mpd",
+          tag: "DASH",
+          iconBg: "#0a1628",
+          iconSvg: '<img src="https://webxpert-rasel.github.io/worldcupicon/IMG_20260613_202814.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:6px"/>',
+          format: "dash",
+          drm: {
+            clearKeys: {
+              "549ab7cd35a64bb6bb479ecead04d69d": "829799ed534d11fcadeb4b192467e050"
             }
           }
         }
