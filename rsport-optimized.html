@@ -850,68 +850,74 @@
       let activeDay = null;
 
       // ── Live Score Store ──────────────────────────────────────────────
-      // Key: "t1|t2" (lowercase), value: { home, away, minute, status }
+      // Keyed by "home|away" normalized, value: {home, away, minute, status}
       const liveScores = {};
-
-      async function fetchLiveScores() {
-        const PROXY = 'https://corsproxy.io/?url=';
-
-        // Source 1: TheSportsDB free tier (key=60)
-        const tryTSDB = async () => {
-          const url = 'https://www.thesportsdb.com/api/v1/json/60/latestsoccer.php';
-          const res = await fetch(PROXY + encodeURIComponent(url));
-          if (!res.ok) throw new Error('tsdb fail');
-          const data = await res.json();
-          return data.events || [];
-        };
-
-        // Source 2: TheSportsDB live events (no key)
-        const tryTSDBLive = async () => {
-          const url = 'https://www.thesportsdb.com/api/v1/json/60/livescore.php?s=Soccer';
-          const res = await fetch(PROXY + encodeURIComponent(url));
-          if (!res.ok) throw new Error('tsdb live fail');
-          const data = await res.json();
-          return data.events || [];
-        };
-
-        let events = [];
-        try { events = await tryTSDB(); } catch(e) {}
-        if (!events.length) {
-          try { events = await tryTSDBLive(); } catch(e) {}
-        }
-
-        events.forEach(e => {
-          const home = (e.strHomeTeam || '').toLowerCase().trim();
-          const away = (e.strAwayTeam || '').toLowerCase().trim();
-          if (!home || !away) return;
-          liveScores[`${home}|${away}`] = {
-            home: e.intHomeScore ?? e.strHomeScore ?? null,
-            away: e.intAwayScore ?? e.strAwayScore ?? null,
-            minute: e.strProgress || e.strStatus || null,
-            status: e.strStatus || ''
-          };
-        });
-      }
 
       function normalizeTeam(name) {
         return name.toLowerCase()
-          .replace(/&/g, 'and')
-          .replace(/[^a-z0-9 ]/g, '')
-          .replace(/\s+/g, ' ')
-          .trim();
+          .replace(/&/g,'and').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ä/g,'a')
+          .replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+      }
+
+      async function fetchLiveScores() {
+        // worldcup26.ir — free, no key, WC2026 specific
+        // Returns array of match objects with homeScore/awayScore + status
+        const ENDPOINTS = [
+          'https://worldcup26.ir/get/games',
+          'https://worldcup26.ir/api/matches',
+        ];
+
+        let events = [];
+
+        for (const url of ENDPOINTS) {
+          try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) continue;
+            const data = await res.json();
+            // API returns array directly or { matches: [...] } or { games: [...] }
+            events = Array.isArray(data) ? data
+              : (data.matches || data.games || data.events || data.data || []);
+            if (events.length) break;
+          } catch(e) { continue; }
+        }
+
+        // Clear old scores and repopulate
+        Object.keys(liveScores).forEach(k => delete liveScores[k]);
+
+        events.forEach(e => {
+          // worldcup26.ir field names
+          const h = normalizeTeam(
+            e.homeTeam?.name || e.home_team || e.team1 || e.strHomeTeam || ''
+          );
+          const a = normalizeTeam(
+            e.awayTeam?.name || e.away_team || e.team2 || e.strAwayTeam || ''
+          );
+          if (!h || !a) return;
+
+          const homeScore = e.homeScore ?? e.home_score ?? e.score1 ?? e.intHomeScore ?? null;
+          const awayScore = e.awayScore ?? e.away_score ?? e.score2 ?? e.intAwayScore ?? null;
+          const status    = e.status || e.strStatus || '';
+          const minute    = e.minute || e.strProgress || e.elapsed || null;
+
+          liveScores[`${h}|${a}`] = {
+            home: homeScore, away: awayScore,
+            minute: minute ? String(minute) : null,
+            status
+          };
+        });
       }
 
       function getScore(t1, t2) {
         const k1 = normalizeTeam(t1);
         const k2 = normalizeTeam(t2);
-        // Exact key first
+        // Exact match first
         if (liveScores[`${k1}|${k2}`]) return liveScores[`${k1}|${k2}`];
-        // Partial match — check if stored key contains both team names
+        // Fuzzy: each stored key checked if it contains the team name
         for (const key of Object.keys(liveScores)) {
           const [h, a] = key.split('|');
-          if ((h.includes(k1) || k1.includes(h)) && (a.includes(k2) || k2.includes(a))) {
-            return liveScores[key];
-          }
+          const hMatch = h.includes(k1) || k1.includes(h) || h.includes(k1.split(' ')[0]);
+          const aMatch = a.includes(k2) || k2.includes(a) || a.includes(k2.split(' ')[0]);
+          if (hMatch && aMatch) return liveScores[key];
         }
         return null;
       }
@@ -1003,9 +1009,10 @@
       // Initial load — fetch scores first then render
       fetchLiveScores().then(renderSchedule);
 
-      // Refresh schedule every 60s, live scores every 90s
+      // Refresh schedule every 60s
       setInterval(renderSchedule, 60 * 1000);
-      setInterval(() => fetchLiveScores().then(renderSchedule), 90 * 1000);
+      // Refresh live scores every 20s for near real-time updates
+      setInterval(() => fetchLiveScores().then(renderSchedule), 20 * 1000);
     </script>
 
     <!-- Multi-Format Playback Engines (Hls.js & Shaka Player) -->
