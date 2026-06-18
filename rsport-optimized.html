@@ -854,31 +854,66 @@
       const liveScores = {};
 
       async function fetchLiveScores() {
-        try {
-          // TheSportsDB free API — live events for soccer (sport id=1)
-          const res = await fetch('https://www.thesportsdb.com/api/v1/json/3/latestsoccer.php');
-          if (!res.ok) return;
-          const data = await res.json();
-          const events = data.events || [];
+        const PROXY = 'https://corsproxy.io/?url=';
 
-          events.forEach(e => {
-            if (!e.strSport || e.strSport.toLowerCase() !== 'soccer') return;
-            const key = `${(e.strHomeTeam||'').toLowerCase()}|${(e.strAwayTeam||'').toLowerCase()}`;
-            liveScores[key] = {
-              home: e.intHomeScore,
-              away: e.intAwayScore,
-              minute: e.strProgress || null,
-              status: e.strStatus || ''
-            };
-          });
-        } catch(e) {
-          // Silently fail — scores are optional
+        // Source 1: TheSportsDB free tier (key=60)
+        const tryTSDB = async () => {
+          const url = 'https://www.thesportsdb.com/api/v1/json/60/latestsoccer.php';
+          const res = await fetch(PROXY + encodeURIComponent(url));
+          if (!res.ok) throw new Error('tsdb fail');
+          const data = await res.json();
+          return data.events || [];
+        };
+
+        // Source 2: TheSportsDB live events (no key)
+        const tryTSDBLive = async () => {
+          const url = 'https://www.thesportsdb.com/api/v1/json/60/livescore.php?s=Soccer';
+          const res = await fetch(PROXY + encodeURIComponent(url));
+          if (!res.ok) throw new Error('tsdb live fail');
+          const data = await res.json();
+          return data.events || [];
+        };
+
+        let events = [];
+        try { events = await tryTSDB(); } catch(e) {}
+        if (!events.length) {
+          try { events = await tryTSDBLive(); } catch(e) {}
         }
+
+        events.forEach(e => {
+          const home = (e.strHomeTeam || '').toLowerCase().trim();
+          const away = (e.strAwayTeam || '').toLowerCase().trim();
+          if (!home || !away) return;
+          liveScores[`${home}|${away}`] = {
+            home: e.intHomeScore ?? e.strHomeScore ?? null,
+            away: e.intAwayScore ?? e.strAwayScore ?? null,
+            minute: e.strProgress || e.strStatus || null,
+            status: e.strStatus || ''
+          };
+        });
+      }
+
+      function normalizeTeam(name) {
+        return name.toLowerCase()
+          .replace(/&/g, 'and')
+          .replace(/[^a-z0-9 ]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
       }
 
       function getScore(t1, t2) {
-        const key = `${t1.toLowerCase()}|${t2.toLowerCase()}`;
-        return liveScores[key] || null;
+        const k1 = normalizeTeam(t1);
+        const k2 = normalizeTeam(t2);
+        // Exact key first
+        if (liveScores[`${k1}|${k2}`]) return liveScores[`${k1}|${k2}`];
+        // Partial match — check if stored key contains both team names
+        for (const key of Object.keys(liveScores)) {
+          const [h, a] = key.split('|');
+          if ((h.includes(k1) || k1.includes(h)) && (a.includes(k2) || k2.includes(a))) {
+            return liveScores[key];
+          }
+        }
+        return null;
       }
 
       function scoreHTML(m, isLive, isFinished) {
@@ -1012,12 +1047,6 @@
           name: "Server 6",
           url: "https://1nyaler.streamhostingcdn.top/stream/89/index.m3u8",
           tag: "HD", iconBg: "#0a1628", iconSvg: _i, format: "hls"
-        },
-        {
-          name: "Server 7",
-          url: "https://speedx.darkblazespuky.workers.dev/?token=abc123",
-          tag: "HD", iconBg: "#0a1628", iconSvg: _i, format: "hls",
-          skipCheck: true
         }
       ];
 
